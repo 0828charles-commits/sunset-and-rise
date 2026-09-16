@@ -1,1 +1,207 @@
-PLACEHOLDER_REPLACE_WITH_FULL_HTML
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sunset Hunter 🌅</title>
+<style>
+:root {
+  --bg: #0f0e17;
+  --bg-card: #1a1825;
+  --bg-card-2: #221f30;
+  --text: #f5f0eb;
+  --text-muted: #a89f96;
+  --accent: #ff7a3d;
+  --accent-2: #ff4d6a;
+  --accent-soft: rgba(255,122,61,.15);
+  --sunrise: #ffb347;
+  --sunset: #ff5c7a;
+  --border: rgba(255,255,255,.08);
+  --radius: 18px;
+  --shadow: 0 8px 32px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%,rgba(255,100,50,.18),transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%,rgba(255,60,100,.08),transparent);
+}
+.wrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}
+header{text-align:center;padding:28px 0 20px}
+header h1{
+  font-size:2.1rem;font-weight:800;letter-spacing:-.02em;
+  background:linear-gradient(135deg,#ffb347,#ff7a3d 40%,#ff4d6a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;
+}
+.sub{color:var(--text-muted);font-size:.95rem;max-width:520px;margin:0 auto}
+.card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;margin:16px 0;box-shadow:var(--shadow);
+}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input,select{
+  font:inherit;padding:12px 14px;border:1px solid var(--border);border-radius:12px;
+  background:var(--bg-card-2);color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;
+}
+input{flex:1;min-width:200px}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+input::placeholder{color:#6b6560}
+button{
+  font:inherit;padding:12px 18px;border:none;border-radius:12px;cursor:pointer;font-weight:650;
+  background:linear-gradient(135deg,#ff8a3d,#ff5c5c);color:#fff;
+  transition:transform .15s,box-shadow .15s;box-shadow:0 4px 14px rgba(255,90,50,.3);
+}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,90,50,.4)}
+button.secondary{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none}
+button.secondary:hover{background:var(--bg-card-2);border-color:rgba(255,255,255,.15)}
+label{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:.9rem}
+#status{margin-top:14px;color:var(--text-muted);font-size:.88rem}
+.candidates{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.cand{
+  display:flex;justify-content:space-between;align-items:center;padding:12px 14px;
+  background:var(--bg-card-2);border-radius:12px;cursor:pointer;border:1px solid transparent;transition:.2s;
+}
+.cand:hover{border-color:var(--accent);background:rgba(255,122,61,.08)}
+.cand b{font-size:.95rem}.cand span{font-size:.8rem;color:var(--text-muted)}
+.dual-scores{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:4px}
+.score-card{
+  background:var(--bg-card-2);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center;
+}
+.score-card.sunrise{border-color:rgba(255,179,71,.25)}
+.score-card.sunset{border-color:rgba(255,92,122,.25)}
+.score-card .label{font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.score-card .num{
+  font-size:2.8rem;font-weight:850;line-height:1;
+  background:linear-gradient(160deg,#ffb347,#ff6b4a,#ff3d6a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.score-card.sunrise .num{background:linear-gradient(160deg,#ffe08a,#ffb347,#ff8a3d);-webkit-background-clip:text;background-clip:text}
+.score-card.sunset .num{background:linear-gradient(160deg,#ff9a6a,#ff5c7a,#ff3d6a);-webkit-background-clip:text;background-clip:text}
+.score-card .verdict{font-weight:700;margin-top:6px;font-size:.95rem;color:var(--accent)}
+.score-card .time{font-size:.85rem;color:var(--text-muted);margin-top:4px}
+.place-name{font-size:1.2rem;font-weight:700;margin:14px 0 8px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.metric{background:var(--bg-card-2);border-radius:12px;padding:12px;border:1px solid var(--border)}
+.metric span{font-size:.75rem;color:var(--text-muted);display:block}
+.metric b{display:block;font-size:1.1rem;margin-top:4px;font-weight:700}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:11px 6px;border-bottom:1px solid var(--border)}
+th{font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+td{font-size:.92rem}
+.top{font-weight:800;color:var(--accent)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.solar-badge{font-size:.9rem;color:var(--text-muted);margin-bottom:10px}
+.solar-badge b{color:var(--text)}
+#solarMap{height:340px;border-radius:14px;background:#12101a;border:1px solid var(--border)}
+.solar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.solar-metric{background:var(--bg-card-2);border-radius:12px;padding:12px;border:1px solid var(--border)}
+.solar-metric span{display:block;font-size:.75rem;color:var(--text-muted)}
+.solar-metric b{display:block;font-size:1rem;margin-top:4px}
+.solar-note{margin-top:14px;font-size:.82rem;color:var(--text-muted);line-height:1.55}
+.tip{line-height:1.65;color:var(--text-muted);font-size:.92rem}
+.tip b{color:var(--text)}
+.photo-tips h3{font-size:1rem;margin-bottom:10px;color:var(--text)}
+.photo-tips ul{padding-left:18px;margin:8px 0}
+.photo-tips li{margin-bottom:6px;font-size:.9rem;color:var(--text-muted)}
+.photo-tips .settings{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:12px 0;
+}
+.photo-tips .set-item{
+  background:var(--bg-card-2);border-radius:10px;padding:10px 12px;border:1px solid var(--border);font-size:.85rem;
+}
+.photo-tips .set-item b{display:block;color:var(--accent);font-size:.78rem;margin-bottom:2px}
+#langScreen{
+  position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;
+  background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(255,100,50,.2),transparent);
+}
+.lang-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:36px 28px;
+  max-width:400px;width:100%;text-align:center;box-shadow:var(--shadow);
+}
+.lang-card .emoji{font-size:3.2rem;margin-bottom:8px}
+.lang-card h1{
+  font-size:1.7rem;margin-bottom:8px;
+  background:linear-gradient(135deg,#ffb347,#ff7a3d,#ff4d6a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.lang-card p{color:var(--text-muted);margin-bottom:24px;font-size:.95rem}
+.lang-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.lang-btns button{
+  min-width:130px;background:var(--bg-card-2);border:1px solid var(--border);box-shadow:none;color:var(--text);
+}
+.lang-btns button:hover{border-color:var(--accent);background:rgba(255,122,61,.12)}
+@media(max-width:650px){
+  header h1{font-size:1.7rem}
+  .dual-scores{grid-template-columns:1fr}
+  .score-card .num{font-size:2.4rem}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  th:nth-child(n+5),td:nth-child(n+5){display:none}
+  #solarMap{height:260px}
+}
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+</head>
+<body>
+<div id="langScreen">
+  <div class="lang-card">
+    <div class="emoji">🌅</div>
+    <h1>Sunset Hunter</h1>
+    <p>Choose your language<br>選擇你的語言</p>
+    <div class="lang-btns">
+      <button onclick="setLang('en')">🇬🇧 English</button>
+      <button onclick="setLang('zh')">🇹🇼 繁體中文</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <h1 id="title">🌅 Sunset Hunter</h1>
+    <p id="subtitle" class="sub">Sunrise & sunset color prediction — find the best chance of dramatic skies.</p>
+  </header>
+
+  <div class="card">
+    <div class="controls">
+      <input id="place" placeholder="Search any city or place, e.g. Taipei, London, Tokyo" autocomplete="off">
+      <button id="search">Search</button>
+      <button id="locate" class="secondary">Use my location</button>
+    </div>
+    <div id="candidates" class="candidates" style="display:none"></div>
+    <div style="height:14px"></div>
+    <div class="controls">
+      <label><span id="dateLabel">From</span> <select id="date"></select></label>
+      <label><span id="daysLabel">Forecast</span>
+        <select id="days">
+          <option value="3">Next 3 days</option>
+          <option value="7" selected>Next 7 days</option>
+        </select>
+      </label>
+    </div>
+    <p id="status">Search for a city to begin.</p>
+  </div>
+
+  <div class="card solar-wrap">
+    <div class="solar-badge"><b>☀️ Solar Map</b> · <span id="solarMapHint">Sunrise / sunset direction and solar path</span></div>
+    <div id="solarMap"></div>
+  </div>
+  <div id="solarInfo" class="card" style="display:none"></div>
+  <div id="app"></div>
+
+  <div class="card tip" id="tipBox">
+    <b id="howTitle">How the score works</b><br>
+    <span id="tipText"></span>
+  </div>
+
+  <div class="card photo-tips" id="photoTips">
+    <h3 id="photoTitle">📸 Photography Tips</h3>
+    <div id="photoContent"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
